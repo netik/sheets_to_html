@@ -1,0 +1,10 @@
+
+I am a page at slug {{slug}}
+
+Hello, {{first_name}} {{last_name}}
+
+Foo is {{foo}}
+
+and Bar is {{bar}}
+
+
