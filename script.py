@@ -13,26 +13,34 @@ from httplib2 import Http
 from oauth2client import file, client, tools
 import pystache
 
-# we'll put finished HTML into this directory
+# we'll put finished HTML into this directory, in the form
+# OUTPUTDIR/slug/index.html
 
 OUTPUTDIR = "html"
+
 # Setup the Sheets API
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
 
 store = file.Storage('credentials.json')
 creds = store.get()
+
 if not creds or creds.invalid:
     flow = client.flow_from_clientsecrets('client_secret.json', SCOPES)
     creds = tools.run_flow(flow, store)
+
 service = build('sheets', 'v4', http=creds.authorize(Http()))
 
 # put the spreadsheet id here
 SPREADSHEET_ID = '1FdzAZ4Rd0RUzth1TZT0RWvAeZre6cJwwOtrw-8HY9fU'
 
-# Make sure these two values cover all of your columns. This range
-# is Columns A1 through E whatever.
+# Make sure this value covers all of your columns. This range
+# is columns A1 through E...
 COLS=5
-RANGE_NAME = 'Sheet1!A1:E'
+
+# don't touch this line, unless you named your spreadsheet something different.
+# note how we calculate the final column here.
+RANGE_NAME = 'Sheet1!A1:' + chr(65 + COLS)
+
 result = service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID,
                                              range=RANGE_NAME).execute()
 values = result.get('values', [])
