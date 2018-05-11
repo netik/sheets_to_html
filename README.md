@@ -15,10 +15,11 @@ Followed by
 
 ``pip install httplib2``
 
-``pip instlal pystache``
+``pip install pystache``
 
 * Go create a spreadsheet with fields. The _first row_ of the spreadsheet are the template keys.
-** The field "slug" is mandatory. This will become the folder name. Edit the script and set `SPREADSHEET_ID` to the ID the URL of your google docs spreadsheet.
+
+* The field "slug" is mandatory. This will become the folder name. Edit the script and set `SPREADSHEET_ID` to the ID the URL of your google docs spreadsheet.
 
 * Edit the HTML template, `template.moustache` The HTML template will be parsed and information from the spreadsheet will be populated. Individual files will be created inside of `html/` based on the `slug` that was provided.
 
