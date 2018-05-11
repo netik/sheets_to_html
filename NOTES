@@ -1,0 +1,9 @@
+They hit save, then it pushes it into a pending google sheet
+
+Once the human has approved it, the script running on the pending sheet,
+
+it'll copy those rows to an approved sheet
+
+The spreadsheet will provide a slug, the slug will then create a folder/file structure
+
+
