@@ -1,4 +1,4 @@
-#!/usr/local/bin/python2.7
+#!/usr/bin/env python
 
 """
 Take data from a google sheet and convert it into individual html pages
@@ -6,6 +6,7 @@ Take data from a google sheet and convert it into individual html pages
 
 from __future__ import print_function
 
+import re
 import os
 import sys
 from googleapiclient.discovery import build
@@ -16,10 +17,22 @@ import pystache
 # we'll put finished HTML into this directory, in the form
 # OUTPUTDIR/slug/index.html
 
-OUTPUTDIR = "html"
+OUTPUTDIR = "/var/www/html_beto/events"
 
 # Setup the Sheets API
 SCOPES = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+
+def get_valid_filename(s):
+    """
+    Return the given string converted to a string that can be used for a clean
+    filename. Remove leading and trailing spaces; convert other spaces to
+    underscores; and remove anything that is not an alphanumeric, dash,
+    underscore, or dot.
+    >>> get_valid_filename("john's portrait in 2004.jpg")
+    'johns_portrait_in_2004.jpg'
+    """
+    s = str(s).strip().replace(' ', '_')
+    return re.sub(r'(?u)[^-\w.]', '', s)
 
 store = file.Storage('credentials.json')
 creds = store.get()
@@ -96,7 +109,7 @@ else:
             except OSError:
                 pass
 
-            newfile = os.path.join(OUTPUTDIR, newfn, "index.html")
+            newfile = os.path.join(OUTPUTDIR, get_valid_filename(newfn), "index.html")
             f = open(newfile,'w+')
             f.write(renderer.render(parsed, params))
             f.close()
